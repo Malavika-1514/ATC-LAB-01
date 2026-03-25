@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+// Function to check keyword
+int isKeyword(char *word) {
+    char *keywords[] = {"int", "float", "char", "if", "else", "while", "for", "return"};
+    int n = 8;
+
+    for (int i = 0; i < n; i++) {
+        if (strcmp(word, keywords[i]) == 0)
+            return 1;
+    }
+    return 0;
+}
+
+int main() {
+    char input[100];
+    char *token;
+
+    printf("Enter a statement: ");
+    fgets(input, sizeof(input), stdin);
+
+    // Tokenize input
+    token = strtok(input, " \t\n");
+
+    while (token != NULL) {
+
+        // Check keyword
+        if (isKeyword(token)) {
+            printf("Keyword: %s\n", token);
+        }
+        // Check number
+        else if (isdigit(token[0])) {
+            printf("Number: %s\n", token);
+        }
+        // Check operator
+        else if (strchr("+-*/=", token[0])) {
+            printf("Operator: %s\n", token);
+        }
+        // Otherwise identifier
+        else {
+            printf("Identifier: %s\n", token);
+        }
+
+        token = strtok(NULL, " \t\n");
+    }
+
+    return 0;
+}
